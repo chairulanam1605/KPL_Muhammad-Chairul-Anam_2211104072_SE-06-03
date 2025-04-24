@@ -1,0 +1,13 @@
+{
+    "lang": "id",
+    "transfer": {
+        "threshold": "1000000000",
+        "low_fee": "5000",
+        "high_fee": "100000"
+    },
+    "methods": ["GOPAY", "LinkAjah", "OVO", "Qris"],
+    "confirmation": {
+        "en": "Yes",
+        "id": "Ya"
+    }
+}
