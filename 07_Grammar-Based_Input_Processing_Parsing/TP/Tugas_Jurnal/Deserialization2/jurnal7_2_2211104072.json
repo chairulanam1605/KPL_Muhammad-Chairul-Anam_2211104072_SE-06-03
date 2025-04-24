@@ -1,0 +1,39 @@
+{
+    "members": [{
+            "firstName": "Muhammad Chairul",
+            "lastName": "Anam",
+            "gender": "Laki-laki",
+            "age": 20,
+            "nim": "2211104072"
+        },
+        {
+            "firstName": "Muhammad Imam",
+            "lastName": "Al Amin",
+            "gender": "Laki-laki",
+            "age": 21,
+            "nim": "2211104077"
+        },
+        {
+            "firstName": "Chayla",
+            "lastName": "Ravanely.Q",
+            "gender": "Perempuan",
+            "age": 21,
+            "nim": "2211104082"
+        },
+        {
+            "firstName": "Muhammad Agam",
+            "lastName": "Nasywaan",
+            "gender": "Laki-laki",
+            "age": 21,
+            "nim": "2211104085"
+        },
+
+        {
+            "firstName": "Namirah",
+            "lastName": "Salsabila",
+            "gender": "Perempuan",
+            "age": 21,
+            "nim": "2211104087"
+        }
+    ]
+}
