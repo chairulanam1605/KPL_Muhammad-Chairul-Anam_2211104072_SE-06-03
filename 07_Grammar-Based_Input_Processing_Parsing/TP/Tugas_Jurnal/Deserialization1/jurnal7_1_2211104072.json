@@ -1,0 +1,15 @@
+{
+    "firstName": "Muhammad Chairul",
+    "lastName": "Anam",
+    "gender": "Laki-laki ",
+    "age": 20,
+    "address": {
+        "streetAddress": "Jln. Pejagalan Kulon RT2/RW5 Kec. Sokaraja Tengah",
+        "city": "Sokaraja",
+        "state": "Jawa Tengah"
+    },
+    "courses": [
+        { "code": "CRI2C4", "name": "Konstruksi Perangkat Lunak" },
+        { "code": "CRI2XX", "name": "Nama Mata Kuliah" }
+    ]
+}
