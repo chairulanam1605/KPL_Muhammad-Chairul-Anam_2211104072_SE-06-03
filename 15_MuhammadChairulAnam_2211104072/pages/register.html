@@ -1,0 +1,86 @@
+<!-- pages/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <input type="text" id="regUsername" placeholder="Username">
+        <input type="password" id="regPassword" placeholder="Password">
+        <button onclick="register()">Register</button>
+        <button onclick="goToLogin()">Sudah punya akun? Login</button>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        const {
+            dialog
+        } = require('@electron/remote');
+        const fs = require('fs');
+        const crypto = require('crypto');
+        const path = require('path');
+
+        const userFile = path.join(__dirname, '..', 'users.json');
+
+        function hashPassword(password) {
+            return crypto.createHash('sha256').update(password).digest('hex');
+        }
+
+        function validateInput(username, password) {
+            const usernameRegex = /^[A-Za-z]{4,20}$/;
+            const passwordLength = /^.{8,20}$/;
+            const hasNumber = /\d/;
+            const hasSpecialChar = /[!@#$%^&*]/;
+
+            if (!usernameRegex.test(username)) return 'Username hanya huruf (4-20 karakter)';
+            if (!passwordLength.test(password)) return 'Password harus 8-20 karakter';
+            if (!hasNumber.test(password)) return 'Password harus ada angka';
+            if (!hasSpecialChar.test(password)) return 'Password harus ada karakter unik (!@#$%^&*)';
+            if (password.toLowerCase().includes(username.toLowerCase())) return 'Password tidak boleh mengandung username';
+            return null;
+        }
+
+        function register() {
+            const username = document.getElementById('regUsername').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const message = document.getElementById('message');
+
+            const validationMsg = validateInput(username, password);
+            if (validationMsg) {
+                message.textContent = validationMsg;
+                message.style.color = 'red';
+                return;
+            }
+
+            let users = {};
+            if (fs.existsSync(userFile)) {
+                users = JSON.parse(fs.readFileSync(userFile));
+            }
+
+            if (users[username]) {
+                dialog.showErrorBox('Registrasi Gagal', 'Username sudah terdaftar.');
+                return;
+            }
+
+            users[username] = hashPassword(password);
+            fs.writeFileSync(userFile, JSON.stringify(users));
+            dialog.showMessageBox({
+                type: 'info',
+                message: 'Akun berhasil dibuat!'
+            });
+
+        }
+
+        function goToLogin() {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

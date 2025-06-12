@@ -1,0 +1,66 @@
+<!-- pages/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <input type="text" id="loginUsername" placeholder="Username">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <button onclick="goToRegister()">Belum punya akun? Register</button>
+        <div class="message" id="message"></div>
+    </div>
+
+
+    <script>
+        const {
+            dialog
+        } = require('@electron/remote');
+        const fs = require('fs');
+        const crypto = require('crypto');
+        const path = require('path');
+
+        const userFile = path.join(__dirname, '..', 'users.json');
+
+        function hashPassword(password) {
+            return crypto.createHash('sha256').update(password).digest('hex');
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const message = document.getElementById('message');
+
+            if (!fs.existsSync(userFile)) {
+                message.textContent = 'Belum ada user terdaftar.';
+                message.style.color = 'red';
+                return;
+            }
+
+            const users = JSON.parse(fs.readFileSync(userFile));
+            const hashed = hashPassword(password);
+
+            if (users[username] && users[username] === hashed) {
+                dialog.showMessageBox({
+                    type: 'info',
+                    message: 'Login berhasil!'
+                });
+            } else {
+                dialog.showErrorBox('Login Gagal', 'Username atau password salah.');
+            }
+        }
+
+        function goToRegister() {
+            window.location.href = 'register.html';
+        }
+    </script>
+</body>
+
+</html>
